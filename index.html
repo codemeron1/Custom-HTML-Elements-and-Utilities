@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Carousel</title>
+
+    <style>
+        body {
+            /*Optional properties, modify based on your preference*/
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            background-color: crimson;
+        }
+        .scene {
+            width: 950px;
+            height: 540px;
+            position: relative;
+            margin: 290px auto; /*Optional properties, modify based on your preference*/
+            perspective: 200px;
+        }
+
+        .scene img {
+            position: absolute;
+            cursor: pointer;
+            transition: left 1s;
+        }
+        .front {
+            width: 470px;
+            height: 300px;
+            left: 250px;
+            box-shadow: 0px 0px 1px 4px #13121236; /*Optional properties, modify based on your preference*/
+            z-index: 2;
+        }
+        .left {
+            opacity: 0.7; /*Optional properties, modify based on your preference*/
+            top: 30px;
+            width: 420;
+            height: 250px;
+            left: 0px;
+            transform: rotateY(-5deg);
+        }
+        .right {
+            opacity: 0.7; /*Optional properties, modify based on your preference*/
+            top: 30px;
+            width: 420;
+            height: 250px;
+            transform: rotateY(5deg);
+            left: 570px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scene" >
+        <img src="./images/b.jpg" class="left">
+        <img src="./images/a.png" class="front">
+        <img src="./images/c.jpg" class="right">
+    </div>
+
+    <script>
+        //TODO Add transition or animation effects.
+        let imgs = document.querySelectorAll(".scene img");
+        
+        function swapClass(newClass) {
+            for (let img of imgs) {
+                if (img.classList.contains("front")) {
+                    img.classList.remove("front");  
+                    img.classList.add(newClass);
+                }
+            }
+        }
+        for (let img of imgs) {
+            img.addEventListener("click", function() {
+                console.log(this.classList)
+                switch (this.classList[0]) {
+                    case "left":
+                        swapClass("left");
+                        this.classList.remove("left");
+                        this.classList.add("front");
+                        break;
+                    case "right":
+                        swapClass("right");
+                        this.classList.remove("right");
+                        this.classList.add("front");
+                        break;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
