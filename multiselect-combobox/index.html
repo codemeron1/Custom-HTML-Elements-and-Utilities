@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        body {
+            background-color: rgb(165, 153, 42);
+        }
+        .container {
+            width: 350px;
+            margin: 250px auto;
+        }
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+        .custom-combobox input[type="text"] {
+            width: 95%;
+            border: none;
+            outline: none;
+            background: none;
+            cursor: pointer;
+        }
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+        .options-container label {
+            display: block;
+            cursor: pointer;
+            padding: 5px;
+            margin-top: 5px;
+            user-select: none;
+        }
+        .options-container label:hover {
+            background: rgb(201, 201, 201);
+        }
+        .options-container::-webkit-scrollbar {
+            width: 3px;
+        }
+        .options-container::-webkit-scrollbar-thumb {
+            background-color: rgb(100, 100, 100);
+        }
+    </style>
+
+    <script>
+        function showOptions(e) {
+            let divOptions = document.getElementById("divOptions");
+            if (divOptions.style.display == "none" || divOptions.style.display == "") {
+                divOptions.style.display = "inline-block";
+            } else {
+                divOptions.style.display = "none";
+            }
+        }
+        function clickMe(e) {
+            console.log('click me');
+            e.stopPropagation();
+        }
+        function hideOptions(e) {
+            let divOptions = document.getElementById("divOptions");
+
+            if (divOptions.contains(e.target)) {
+                divOptions.style.display = "inline-block";
+            } else {
+                divOptions.style.display = "none";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <p style="margin: 5px;">Custom multi-select combobox</p>
+        <div class="custom-combobox-container">
+            <div class="custom-combobox" onclick="showOptions(this)">
+                <input type="text" id="inputCheckbox" readonly>
+                <img src="./arrow.png">
+            </div>
+            <div class="options-container" id="divOptions" onmouseleave="hideOptions(this)">
+                <label for="one"> <input type="checkbox" id="one" value="one"> one </label>
+                <label for="two"> <input type="checkbox" id="two" value="two"> two </label>
+                <label for="three"> <input type="checkbox" id="three" value="three"> three </label>
+                <label for="four"> <input type="checkbox" id="four" value="four"> four </label>
+                <label for="five"> <input type="checkbox" id="five" value="five"> five </label>
+                <label for="five"> <input type="checkbox" id="six" value="six"> six </label>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let checkbox = document.querySelectorAll("#divOptions input");
+            let inputCheckbox = document.getElementById("inputCheckbox");
+
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].addEventListener("change", (e) => {
+                    if (e.target.checked == true) {
+                        if (inputCheckbox.value == "") {
+                            inputCheckbox.value = checkbox[i].value;
+                        } else {
+                            inputCheckbox.value += `,${checkbox[i].value}`;
+                        }
+                    } else {
+                        let values = inputCheckbox.value.split(",");
+
+                        for (let r = 0; r < values.length; r++) {
+                            if (values[r] == e.target.value) {
+                                values.splice(r, 1);
+                            }
+                        }
+                        inputCheckbox.value = values;
+                    }
+                });
+            }
+        });
+
+
+
+    </script>
+</body>
+
+</html>
